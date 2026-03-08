@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@my-awesome-template/common": ["packages/common/index.ts"]
+    }
+  }
+}
