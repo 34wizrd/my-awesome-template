@@ -8,3 +8,17 @@ export const CreateProductSchema = z.object({
 });
 
 export type CreateProductDto = z.infer<typeof CreateProductSchema>;
+
+// Shared Redis Key Patterns
+export const RedisKeys = {
+    productStock: (id: string) => `stock:product:${id}`,
+    userSession: (id: string) => `session:user:${id}`,
+    flashSaleLock: (productId: string) => `lock:flash-sale:${productId}`,
+} as const;
+
+// Shared Types for Redis Data
+export interface StockUpdate {
+    productId: string;
+    quantity: number;
+    timestamp: number;
+}

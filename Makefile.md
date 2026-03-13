@@ -1,15 +1,14 @@
 # --- Variables ---
-# This allows you to run commands like 'make backend'
 PNPM = pnpm
+DOCKER_COMPOSE = docker-compose
 
 # --- Installation & Setup ---
 .PHONY: setup
 setup:
 $(PNPM) install
-docker-compose up -d
+$(DOCKER_COMPOSE) up -d
 
 # --- Development ---
-# 'pnpm --filter' is the "magic" command for monorepos
 .PHONY: backend
 backend:
 $(PNPM) --filter backend dev
@@ -18,19 +17,18 @@ $(PNPM) --filter backend dev
 frontend:
 $(PNPM) --filter frontend dev
 
-# Run both at once (requires 'concurrently' installed in root)
 .PHONY: dev
 dev:
 $(PNPM) run dev:all
 
 # --- Infrastructure ---
-.PHONY: db-up
-db-up:
-docker-compose up -d
+.PHONY: up
+up:
+$(DOCKER_COMPOSE) up -d
 
-.PHONY: db-down
-db-down:
-docker-compose down
+.PHONY: down
+down:
+$(DOCKER_COMPOSE) down
 
 # --- Cleanup ---
 .PHONY: clean
@@ -38,4 +36,4 @@ clean:
 rm -rf node_modules
 rm -rf apps/*/node_modules
 rm -rf packages/*/node_modules
-pnpm store prune
+$(PNPM) store prune

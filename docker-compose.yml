@@ -1,10 +1,34 @@
 version: '3.8'
+
 services:
+  # The Relational Database (Source of Truth)
   db:
     image: postgres:16-alpine
+    container_name: awesome-db
+    restart: always
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: boutique_db
+      POSTGRES_DB: awesome_db
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # The Cache Layer (For High-Speed Inventory/Sessions)
+  redis:
+    image: redis:7-alpine
+    container_name: awesome-redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  # GUI for Database (Optional, but makes Junior-to-Mid life easier)
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
